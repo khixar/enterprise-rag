@@ -2,6 +2,7 @@ import asyncio
 import json
 
 from langchain_core.runnables import RunnableConfig
+from langfuse.decorators import langfuse_context, observe
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -22,11 +23,16 @@ def _db(config: RunnableConfig) -> AsyncSession:
     return config["configurable"]["db"]
 
 
+@observe(as_type="retriever", name="Retrieve Node")
 async def retrieve(state: AgentState, config: RunnableConfig) -> dict:
     db = _db(config)
     question = state["question"]
     tenant_id = state["tenant_id"]
     fetch_k = max(_TOP_K * 3, 15)
+
+    langfuse_context.update_current_observation(
+        input={"question": question, "tenant_id": str(tenant_id), "fetch_k": fetch_k}
+    )
 
     query_embedding, bm25_results = await asyncio.gather(
         embed_texts([question]),
@@ -47,6 +53,10 @@ async def retrieve(state: AgentState, config: RunnableConfig) -> dict:
     vector_results = rows.all()
     combined = reciprocal_rank_fusion(vector_results, bm25_results)
 
+    langfuse_context.update_current_observation(
+        output={"retrieved_count": len(combined), "retrieval_empty": len(combined) == 0}
+    )
+
     return {
         "retrieved_chunks": combined,
         "retrieval_empty": len(combined) == 0,
@@ -63,16 +73,32 @@ Respond with JSON only:
 {"should_escalate": true/false, "reason": "<one sentence explaining why, or null if not escalating>"}"""
 
 
+@observe(as_type="agent", name="Classify Node")
 async def classify(state: AgentState, config: RunnableConfig) -> dict:
+    question = state["question"]
+    chunks = state["retrieved_chunks"]
+
+    langfuse_context.update_current_observation(
+        input={
+            "question": question,
+            "retrieved_count": len(chunks),
+            "retrieval_empty": state["retrieval_empty"],
+        }
+    )
+
     if state["retrieval_empty"]:
         print("[classify] → escalate (retrieval empty)")
+        langfuse_context.update_current_observation(
+            output={
+                "should_escalate": True,
+                "escalation_reason": "No relevant documents were found for this query.",
+            }
+        )
         return {
             "should_escalate": True,
             "escalation_reason": "No relevant documents were found for this query.",
         }
 
-    question = state["question"]
-    chunks = state["retrieved_chunks"]
     context = "\n\n".join(
         f"[{i+1}] ({c.document_title}): {c.content[:300]}"
         for i, c in enumerate(chunks[:5])
@@ -93,6 +119,11 @@ async def classify(state: AgentState, config: RunnableConfig) -> dict:
     reason = parsed.get("reason")
     path = "escalate" if should_escalate else "answer"
     print(f"[classify] → {path} | reason: {reason}")
+
+    langfuse_context.update_current_observation(
+        output={"should_escalate": should_escalate, "escalation_reason": reason}
+    )
+
     return {
         "should_escalate": should_escalate,
         "escalation_reason": reason,
@@ -104,9 +135,14 @@ If the answer is not in the context, say you don't have that information.
 Be concise and factual."""
 
 
+@observe(as_type="span", name="Answer Node")
 async def answer(state: AgentState, config: RunnableConfig) -> dict:
     question = state["question"]
     chunks = state["retrieved_chunks"]
+
+    langfuse_context.update_current_observation(
+        input={"question": question, "candidate_chunks_count": len(chunks)}
+    )
 
     ranked = await rerank(
         query=question,
@@ -118,40 +154,64 @@ async def answer(state: AgentState, config: RunnableConfig) -> dict:
     sources: list[SourceChunk] = []
     for r in ranked:
         candidate = chunks[r.index]
-        location = f"p.{candidate.page_number}" if candidate.page_number else "unknown page"
+        location = (
+            f"p.{candidate.page_number}" if candidate.page_number else "unknown page"
+        )
         context_parts.append(
             f"[{len(sources)+1}] ({candidate.document_title}, {location})\n{candidate.content}"
         )
-        sources.append(SourceChunk(
-            document_title=candidate.document_title,
-            page_number=candidate.page_number,
-            content=candidate.content,
-            rrf_score=round(candidate.rrf_score, 6),
-            relevance_score=round(r.relevance_score, 6),
-        ))
+        sources.append(
+            SourceChunk(
+                document_title=candidate.document_title,
+                page_number=candidate.page_number,
+                content=candidate.content,
+                rrf_score=round(candidate.rrf_score, 6),
+                relevance_score=round(r.relevance_score, 6),
+            )
+        )
 
     client = get_client()
     completion = await client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": _ANSWER_PROMPT},
-            {"role": "user", "content": f"Context:\n{'\n\n'.join(context_parts)}\n\nQuestion: {question}"},
+            {
+                "role": "user",
+                "content": f"Context:\n{'\n\n'.join(context_parts)}\n\nQuestion: {question}",
+            },
         ],
         temperature=0.0,
     )
 
+    ans = completion.choices[0].message.content
+
+    langfuse_context.update_current_observation(
+        output={"answer": ans, "sources_count": len(sources)}
+    )
+
     return {
-        "answer": completion.choices[0].message.content,
+        "answer": ans,
         "sources": sources,
     }
 
 
+@observe(as_type="span", name="Escalate Node")
 async def escalate(state: AgentState, config: RunnableConfig) -> dict:
-    reason = state.get("escalation_reason") or "The question could not be answered from the available documents."
+    reason = (
+        state.get("escalation_reason")
+        or "The question could not be answered from the available documents."
+    )
+
+    langfuse_context.update_current_observation(input={"escalation_reason": reason})
+
+    ans = (
+        f"I wasn't able to find a reliable answer to your question. "
+        f"{reason} Please reach out to your HR team directly."
+    )
+
+    langfuse_context.update_current_observation(output={"answer": ans})
+
     return {
-        "answer": (
-            f"I wasn't able to find a reliable answer to your question. "
-            f"{reason} Please reach out to your HR team directly."
-        ),
+        "answer": ans,
         "sources": [],
     }

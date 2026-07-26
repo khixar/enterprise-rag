@@ -1,4 +1,4 @@
-from openai import AsyncOpenAI
+from langfuse.openai import AsyncOpenAI
 
 from app.core.config import settings
 

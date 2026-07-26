@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 import cohere
+from langfuse.decorators import langfuse_context, observe
 
 from app.core.config import settings
 
@@ -22,12 +23,19 @@ class RankedResult:
     relevance_score: float
 
 
+@observe(as_type="span", name="Cohere Rerank")
 async def rerank(query: str, documents: list[str], top_n: int) -> list[RankedResult]:
+    langfuse_context.update_current_observation(
+        input={"query": query, "documents_count": len(documents), "top_n": top_n}
+    )
     response = await get_client().rerank(
         model=RERANK_MODEL,
         query=query,
         documents=documents,
         top_n=top_n,
+    )
+    langfuse_context.update_current_observation(
+        output={"results_count": len(response.results)}
     )
     return [
         RankedResult(index=r.index, relevance_score=r.relevance_score)
