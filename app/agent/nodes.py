@@ -66,8 +66,13 @@ async def retrieve(state: AgentState, config: RunnableConfig) -> dict:
 _CLASSIFY_PROMPT = """You are a retrieval quality classifier for an HR assistant.
 
 Given a question and retrieved document chunks, decide whether the chunks are relevant
-enough to answer the question, or whether this should be escalated (chunks are off-topic,
-too vague, or the question is outside the scope of the available HR documents).
+enough to answer the question, or whether this should be escalated (chunks are completely off-topic).
+
+Guidelines:
+1. In an HR context, the user might refer to the candidate/employee as 'the user' or 'the candidate'.
+2. The phrase 'user experience' or 'user's experience' might refer to the candidate's professional work experience/skills with a technology, not UI/UX design.
+3. Do NOT escalate if the primary technology, tool, skill, or topic in the query (e.g. 'Django', 'FastAPI', 'Python', 'AWS') is mentioned or discussed in the chunks. Even if the question is slightly off-topic, as long as it mentions a technology the candidate has worked with, do NOT escalate. Let the answer node handle explaining what is or isn't in the context.
+4. Only escalate if the query is about a completely different technology, person, or subject that has zero mention or relevance in the retrieved chunks (e.g. asking about 'React' or 'Cooking recipes' when the chunks are only about a Python backend developer).
 
 Respond with JSON only:
 {"should_escalate": true/false, "reason": "<one sentence explaining why, or null if not escalating>"}"""
@@ -100,7 +105,7 @@ async def classify(state: AgentState, config: RunnableConfig) -> dict:
         }
 
     context = "\n\n".join(
-        f"[{i+1}] ({c.document_title}): {c.content[:300]}"
+        f"[{i+1}] ({c.document_title}): {c.content}"
         for i, c in enumerate(chunks[:5])
     )
 
