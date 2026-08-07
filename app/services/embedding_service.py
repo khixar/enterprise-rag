@@ -13,12 +13,12 @@ def get_client() -> AsyncOpenAI:
 
 
 async def embed_texts(texts: list[str]) -> list[list[float]]:
-    """Embed a list of texts, batching into groups of 2048."""
+    """Embed a list of texts, batching into groups of 128."""
     client = get_client()
     all_embeddings: list[list[float]] = []
 
-    for i in range(0, len(texts), 2048):
-        batch = texts[i : i + 2048]
+    for i in range(0, len(texts), 128):
+        batch = texts[i : i + 128]
         response = await client.embeddings.create(
             model=settings.EMBEDDING_MODEL,
             input=batch,

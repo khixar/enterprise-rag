@@ -164,7 +164,68 @@ def print_report(results: list[EvalResult]) -> None:
     print("\n" + "=" * 70 + "\n")
 
 
-async def run_eval(tenant_id: uuid.UUID, eval_file: Path) -> None:
+from datetime import datetime
+
+
+def save_results(
+    results: list[EvalResult],
+    eval_file: Path,
+    tenant_id: uuid.UUID,
+    output_path: Path | None = None,
+) -> Path:
+    out_dir = Path("eval_results")
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    if output_path is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_path = out_dir / f"results_{eval_file.stem}_{timestamp}.json"
+
+    retrieval_cases = [r for r in results if r.case.should_retrieve]
+    retrieval_passes = sum(1 for r in retrieval_cases if r.retrieval_pass)
+    answer_passes = sum(1 for r in results if r.answer_verdict == "PASS")
+
+    serialized_results = []
+    for r in results:
+        serialized_results.append({
+            "question": r.case.question,
+            "expected_answer": r.case.expected_answer,
+            "actual_answer": r.actual_answer,
+            "should_retrieve": r.case.should_retrieve,
+            "expected_doc": r.case.expected_source_document,
+            "expected_page": r.case.expected_page,
+            "retrieved_docs": r.retrieved_docs,
+            "retrieved_pages": r.retrieved_pages,
+            "retrieval_pass": r.retrieval_pass,
+            "answer_verdict": r.answer_verdict,
+            "answer_reason": r.answer_reason,
+            "error": r.error,
+        })
+
+    payload = {
+        "tenant_id": str(tenant_id),
+        "eval_file": str(eval_file),
+        "timestamp": datetime.now().isoformat(),
+        "summary": {
+            "total_questions": len(results),
+            "should_retrieve_cases": len(retrieval_cases),
+            "retrieval_passes": retrieval_passes,
+            "retrieval_accuracy": (
+                retrieval_passes / len(retrieval_cases) if retrieval_cases else None
+            ),
+            "answer_passes": answer_passes,
+            "answer_accuracy": answer_passes / len(results) if results else 0,
+        },
+        "results": serialized_results,
+    }
+
+    output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    print(f"\n[Saved eval results to {output_path}]")
+    return output_path
+
+
+async def run_eval(
+    tenant_id: uuid.UUID, eval_file: Path, output_file: Path | None = None
+) -> None:
     raw = json.loads(eval_file.read_text())
     cases = [EvalCase(**c) for c in raw]
 
@@ -218,6 +279,7 @@ async def run_eval(tenant_id: uuid.UUID, eval_file: Path) -> None:
                 ))
 
     print_report(results)
+    save_results(results, eval_file, tenant_id, output_file)
 
 
 def main() -> None:
@@ -227,6 +289,11 @@ def main() -> None:
         "--eval-file",
         default="eval.json",
         help="Path to eval JSON file (default: eval.json)",
+    )
+    parser.add_argument(
+        "--output",
+        default=None,
+        help="Optional custom path to save JSON results (default: eval_results/results_<eval_file>_<timestamp>.json)",
     )
     args = parser.parse_args()
 
@@ -241,7 +308,8 @@ def main() -> None:
         print(f"Eval file not found: {eval_file}")
         sys.exit(1)
 
-    asyncio.run(run_eval(tenant_id, eval_file))
+    output_file = Path(args.output) if args.output else None
+    asyncio.run(run_eval(tenant_id, eval_file, output_file))
 
 
 if __name__ == "__main__":
