@@ -1,0 +1,65 @@
+[
+  {
+    "question": "What is the short title of Act No. XXXVIII of 2026 that repeals the Pakistan International Airlines Corporation (Conversion) Act, 2016?",
+    "expected_answer": "The Pakistan International Airlines Corporation (Conversion) (Repeal) Act, 2026.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Which specific provision of the Pakistan International Airlines Corporation (Conversion) Act, 2016 is excluded from repeal by the Pakistan International Airlines Corporation (Conversion) (Repeal) Act, 2026?",
+    "expected_answer": "Sub-section (1) of section 7 is excepted from repeal.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "According to the Pakistan International Airlines Corporation (Conversion) (Repeal) Act, 2026, when does the Act come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Under the Provincial Motor Vehicles (Amendment) Act, 2026, what is the first thing point with regards to use of mobile",
+    "expected_answer": "A person shall not drive a motor cycle or motor vehicle if, he is using a hand-held mobile telephone or a device which performs an interactive communication function of transmitting and receiving data, fire, ambulance or other emergency service.",
+    "expected_source_document": "6a3b843ed07c1_732.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Under the Provincial Motor Vehicles (Amendment) Act, 2026, under what circumstance is a driver not guilty of using a mobile telephone while driving in Islamabad Capital Territory?",
+    "expected_answer": "A person is not guilty if they are using the mobile telephone or device to call the police, fire, ambulance, or other emergency service.",
+    "expected_source_document": "6a3b843ed07c1_732.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the territorial extent of the Provincial Motor Vehicles (Amendment) Act, 2026 (Act No. XXXII of 2026)?",
+    "expected_answer": "It applies to the extent of Islamabad Capital Territory.",
+    "expected_source_document": "6a3b843ed07c1_732.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the revised penalty amount under the Pakistan Names and Emblems (Prevention of Unauthorised Use) (Amendment) Act, 2026 for unauthorized use in section 3?",
+    "expected_answer": "The penalty is increased from five hundred rupees to fifty thousand rupees.",
+    "expected_source_document": "6a3b8388cf194_230.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Which original 1957 statute is amended by the Pakistan Names and Emblems (Prevention of Unauthorised Use) (Amendment) Act, 2026?",
+    "expected_answer": "The Pakistan Names and Emblems (Prevention of Unauthorised Use) Act, 1957 (XXVIII of 1957).",
+    "expected_source_document": "6a3b8388cf194_230.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When did the Pakistan Names and Emblems (Prevention of Unauthorised Use) (Amendment) Act, 2026 receive the assent of the President?",
+    "expected_answer": "It received the assent of the President on the 7th April, 2026.",
+    "expected_source_document": "6a3b8388cf194_230.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  }
+]

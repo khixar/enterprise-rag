@@ -1,0 +1,723 @@
+[
+  {
+    "question": "What must be included in the application for alternative dispute resolution according to the excerpt?",
+    "expected_answer": "The application must be accompanied by an initial proposition for resolution of the dispute and an undertaking that if the applicant accepts the decision of the Committee, it shall be binding on him and he shall withdraw any pending cases in respect of the dispute within fifteen days.",
+    "expected_source_document": "6976fbb07496b_788.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the minimum professional qualification required for members of the National Tariff Commission according to the proposed amendments?",
+    "expected_answer": "A member shall have at least a master's professional degree or qualification from an accredited university or institute in the field of law, business, economics, accountancy, tariffs, and trade, or a related subject.",
+    "expected_source_document": "6979deb9ae639_991.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "The Extradition (Amendment) Act, 2025.",
+    "expected_source_document": "682aac392fae7_674.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the title of the Act that amends the Code of Criminal Procedure, 1898?",
+    "expected_answer": "The Code of Criminal Procedure (Amendment) Act, 2026.",
+    "expected_source_document": "6a27b92def6c0_429.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal requirements for establishing a co-working space in a metropolitan area of Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the deadline for pending cases for grant of rehabilitation and resettlement benefits according to the new section 29A?",
+    "expected_answer": "30th October, 2024.",
+    "expected_source_document": "6936e3c28080a_251.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the term duration for the independent members appointed under the amended section 6 of the Special Technology Zones Authority Act?",
+    "expected_answer": "Four years.",
+    "expected_source_document": "682444521a442_461.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What types of ships are excluded from the application of the Environmentally Sound Management of Inventory of Hazardous Material on Ships Act, 2025?",
+    "expected_answer": "Warships, naval auxiliary, or other ships owned or operated by a state and used only on government non-commercial service; ships of less than 500 gross tonnage; and ships operating throughout their life only in waters subject to the sovereignty or jurisdiction of the State whose flag the ship is flying.",
+    "expected_source_document": "6a02bf5821ee3_128.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the age cutoff for a person to be considered a 'child' under this Act?",
+    "expected_answer": "Under the age of eighteen years.",
+    "expected_source_document": "69799f69ae4c4_844.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the new term expiration date for a member as per the amendment in Article 59?",
+    "expected_answer": "The term of a member, notwithstanding the date of his election, shall expire on the eleventh day of March of the year of the completion of term for which he is elected.",
+    "expected_source_document": "6914afccc4f10_308.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who comprises the governing body of the Federal Ziauddin University?",
+    "expected_answer": "The governing body consists of the Patron, the Chancellor, the Pro-Chancellor, the Rector, the Vice Chancellor, the Deans, the Directors, the Registrar, the members of the Governing Body, the members of the Academic Council, the Teachers, and students of the University and its constituent units.",
+    "expected_source_document": "663dd88d3bfae_304.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the maximum limit for the surety amount of penalty as per the amendment in section 514?",
+    "expected_answer": "The surety amount of penalty shall not be more than half of the surety amount of penalty.",
+    "expected_source_document": "6a27b92def6c0_429.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is required for the personal particulars of a cancer patient to be disclosed to unauthorized persons?",
+    "expected_answer": "The prior written consent of the patient.",
+    "expected_source_document": "68ca64766a52d_543.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the minimum experience required for private members appointed to the Federal SEZ Authority?",
+    "expected_answer": "At least ten years of experience in the field of law, economics, technology or finance, coupled with experience of the industrial sector.",
+    "expected_source_document": "6a046aaf01581_222.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the Special Economic Zones Act, 2012?",
+    "expected_answer": "The Special Economic Zones (Amendment) Act, 2026.",
+    "expected_source_document": "6a046aaf01581_222.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When does the Capital Development Authority (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "695ba2196aed6_501.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "According to the amendments, is a victim's consent considered a defense in proceedings related to trafficking in persons?",
+    "expected_answer": "A victim's consent or consent of guardian on behalf of a minor victim to, or acquiescence in, any of the acts constituting the offence of trafficking in persons shall be irrelevant and shall not be considered a defense in any proceeding.",
+    "expected_source_document": "67b34630de511_584.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act being amended?",
+    "expected_answer": "The National Fund for Culture Heritage (Amendment) Act, 2025.",
+    "expected_source_document": "69ce79a77b6e0_655.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the Legal Aid and Justice Authority Act, 2020?",
+    "expected_answer": "The short title of the Act is the Legal Aid and Justice Authority (Amendment) Act, 2024.",
+    "expected_source_document": "679866e0bce08_199.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the conditions under which a SEZ application is submitted to the BOA by the Federal SEZ Authority?",
+    "expected_answer": "The zone application shall be submitted to the BOA by the Federal SEZ Authority when a SEZ is proposed to be established by the Federal Government.",
+    "expected_source_document": "6a046aaf01581_222.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the definition of 'illegal activities' as per the Explosives (Amendment) Act, 2025?",
+    "expected_answer": "Illegal activities means any actions involving the manufacturing, storage, possession, procurement, sale, transport, import, export or use of explosives without any licence under this Act and rules made thereunder.",
+    "expected_source_document": "682b37dfc5c16_708.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the definition of 'hazardous material' according to the Environmentally Sound Management of Inventory of Hazardous Material on Ships Act, 2025?",
+    "expected_answer": "Any material or substance which is liable to create hazards to human health and/or the environment.",
+    "expected_source_document": "6a02bf5821ee3_128.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What changes are made to the word 'Cabinet' in the Privatisation Commission Ordinance, 2000?",
+    "expected_answer": "The words 'Federal Government' shall be substituted for the word 'Cabinet'.",
+    "expected_source_document": "69ccf3be7cdbe_300.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What conditions must be met when compensation is provided through land sharing according to the new sub-section inserted in section 30?",
+    "expected_answer": "The allotted land must be of equivalent value, utility, and accessibility as the acquired land; rehabilitation and resettlement benefits must be provided where required; and the compensation package must align with principles of equity ensuring that affected persons are not placed at a disadvantage due to the acquisition.",
+    "expected_source_document": "6936e3c28080a_251.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What amendment is made to section 5 of the Pakistan Citizenship Act, 1951?",
+    "expected_answer": "The substitution of the word 'parent' for the word 'father' by the Pakistan Citizenship (Amendment) Ordinance, 2000 shall always be deemed to have been so done on and from the commencement of this Act.",
+    "expected_source_document": "69ccf33119e8e_822.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the Pakistan Navy Ordinance, 1961?",
+    "expected_answer": "Pakistan Navy (Amendment) Act, 2024",
+    "expected_source_document": "6729f99b3c5cc_790.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the minimum tax liability amount for which an aggrieved person can apply for alternative dispute resolution under the Income Tax Ordinance, 2001?",
+    "expected_answer": "The minimum tax liability amount is fifty million rupees.",
+    "expected_source_document": "6976fbb07496b_788.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What substitution is made in section 5, sub-section (1), clause (a) of the Legal Aid and Justice Authority Act, 2020?",
+    "expected_answer": "The words 'Human Rights' shall be substituted with 'Law and Justice'.",
+    "expected_source_document": "679866e0bce08_199.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "This Act shall be called the Daanish University.",
+    "expected_source_document": "69afcf8dd29cb_688.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When did the Federal Prosecution Service (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "6965f4d95d9a9_769.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the conditions for filling the vacancy of the Chairman of the National Tariff Commission?",
+    "expected_answer": "If the position of the Chairman becomes vacant, the Federal Government shall notify a member as Chairman, and any of the members may perform the functions of the Chairman temporarily to ensure continuity.",
+    "expected_source_document": "6979deb9ae639_991.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the title of the Act established for the Federal Ziauddin University?",
+    "expected_answer": "Federal Ziauddin University Act, 2024.",
+    "expected_source_document": "663dd88d3bfae_304.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal implications of hosting a virtual reality event in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What powers may be vested in the Prime Minister regarding the term of office of the members in the Privatisation Commission Ordinance, 2000?",
+    "expected_answer": "The Prime Minister may fix the term of office of the members in the law itself.",
+    "expected_source_document": "6915d30de9979_503.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What constitutes a 'major violation' under the Explosives (Amendment) Act, 2025?",
+    "expected_answer": "Major violations means actions that cause significant risks to public life and their safety in terms of terrorism, involving unlawful trade or violate core provisions of this Act and rules made thereunder and includes unauthorized manufacturing of explosives, large scale possession without licence, smuggling or supplying explosives to criminals or any other person without having valid licence.",
+    "expected_source_document": "682b37dfc5c16_708.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Bill amending the Federal Board of Intermediate and Secondary Education Act, 1975?",
+    "expected_answer": "The Federal Board of Intermediate and Secondary Education (Amendment) Bill, 2025.",
+    "expected_source_document": "682b1859e32e2_235.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "In the Privatisation Commission Ordinance, 2000, what expression is proposed to be substituted for 'Cabinet'?",
+    "expected_answer": "'Federal Government'.",
+    "expected_source_document": "6915d30de9979_503.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What new clause is added to section 11 of the Federal Board of Intermediate and Secondary Education Act, 1975?",
+    "expected_answer": "(da) to collaborate with national and international boards;",
+    "expected_source_document": "682b1859e32e2_235.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What legal protections are in place for gig economy workers in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the maximum penalty for the offence of trafficking in persons as amended in section 3 of the Act?",
+    "expected_answer": "The maximum penalty for the offence of trafficking in persons is fourteen years and a fine which may extend to two million rupees.",
+    "expected_source_document": "67b34630de511_584.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who does the term 'Chancellor' refer to in the context of this Act?",
+    "expected_answer": "The Chancellor of the Institute.",
+    "expected_source_document": "69b91e5fc28e4_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "Imports and Exports (Control) (Amendment) Act, 2025",
+    "expected_source_document": "67bd9004100c1_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the title of the Act that amends the Federal Prosecution Service Act, 2023?",
+    "expected_answer": "The Federal Prosecution Service (Amendment) Act, 2026.",
+    "expected_source_document": "6965f4d95d9a9_769.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What conditions apply to the retirement age and service limits for the Chief of the Naval Staff according to the amended section 14C?",
+    "expected_answer": "The retirement age and service limits prescribed for an Admiral shall not be applicable to the Chief of the Naval Staff during his tenure of appointment, re-appointment, and/or extension.",
+    "expected_source_document": "6729f99b3c5cc_790.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the National Institute of Health (Re-organization) Act, 2021?",
+    "expected_answer": "The National Institute of Health (Re-organization) (Amendment) Act, 2025.",
+    "expected_source_document": "68ca64766a52d_543.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What categories of cancer data shall the center cause to be registered according to the amendment?",
+    "expected_answer": "Confirmed cancer cases, Deaths due to cancer, Recoveries from cancer, Hospitalized pendency of cancer, and Cancer Demographic information age, gender, location.",
+    "expected_source_document": "68ca64766a52d_543.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that repeals the Pakistan International Airlines Corporation (Conversion) Act, 2016?",
+    "expected_answer": "The short title is the Pakistan International Airlines Corporation (Conversion) (Repeal) Act, 2026.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the commencement date of the Federal Ziauddin University Act?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "663dd88d3bfae_304.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When does the Christian Marriage (Amendment) Act, 2024 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "66ceed1c000bf_209.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the Privatisation Commission Ordinance, 2000?",
+    "expected_answer": "The Privatisation Commission (Amendment) Act, 2026.",
+    "expected_source_document": "69ccf3be7cdbe_300.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When did the Pakistan Citizenship (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "69ccf33119e8e_822.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What date was the Cabinet Committee for Disposal of Legislative Cases (CCLC) meeting held to approve the proposed amendments?",
+    "expected_answer": "08.10.2025.",
+    "expected_source_document": "69ce79a77b6e0_655.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What does the term 'University' refer to in this Act?",
+    "expected_answer": "'University' means the Daanish University, Islamabad.",
+    "expected_source_document": "69afcf8dd29cb_688.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who may be appointed as the Chairman of the Federal Board of Intermediate and Secondary Education according to the amendments?",
+    "expected_answer": "The Chairman may be appointed by the Prime Minister either through initial appointment on such terms and conditions as may be determined by the Prime Minister or on deputation basis, a government servant not less than BS-20.",
+    "expected_source_document": "682b1859e32e2_235.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who is responsible for recommending the appointment of independent members according to the amendment in section 6?",
+    "expected_answer": "The Secretary of the Division concerned.",
+    "expected_source_document": "682444521a442_461.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "The Act shall be called the Capital Development Authority (Amendment) Act, 2026.",
+    "expected_source_document": "695ba2196aed6_501.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the primary reason for amending the Extradition Act, 1972 as stated in the document?",
+    "expected_answer": "To address delays in the disposal of extradition cases which reflect a bad impression of the country on international forums.",
+    "expected_source_document": "682aac392fae7_674.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the procedure for appointments to the service until recommendations are made by the Federal Public Service Commission according to the amendments?",
+    "expected_answer": "Appointments to the service shall be made on ad-hoc or contract basis in the prescribed manner.",
+    "expected_source_document": "6965f4d95d9a9_769.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the maximum administrative penalty for a licensee committing minor violations which are malicious?",
+    "expected_answer": "The maximum administrative penalty for a licensee committing minor violations which are malicious shall be not exceeding one million rupees.",
+    "expected_source_document": "682b37dfc5c16_708.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Are there specific regulations for the establishment of telemedicine services in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the new expression substituted for 'three (03)' in section 14A of the Pakistan Navy Ordinance, 1961?",
+    "expected_answer": "five (05)",
+    "expected_source_document": "6729f99b3c5cc_790.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "Pakistan Citizenship (Amendment) Act, 2026",
+    "expected_source_document": "69ccf33119e8e_822.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the bill mentioned in the document?",
+    "expected_answer": "The Privatisation Commission (Amendment) Bill, 2024.",
+    "expected_source_document": "6915d30de9979_503.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the title of the Act mentioned in the document?",
+    "expected_answer": "The Institute of Management, Sciences and Technology Act, 2025.",
+    "expected_source_document": "69b91e5fc28e4_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Are there any specific laws regulating the use of blockchain technology in supply chain management in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the maximum household income for a child to be considered a 'destitute child' under the Daanish Schools Authority Act, 2025?",
+    "expected_answer": "A 'destitute child' means a child whose combined household's gross income does not exceed the minimum wage as notified by the Federal Government or any other amount specified by the Authority.",
+    "expected_source_document": "6928610f0b3d0_464.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What legal protections exist for whistleblowers in the context of environmental violations in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "When did the Pakistan International Airlines Corporation (Conversion) (Repeal) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What conditions must be met for a ship to be classified as a 'new ship' under the Act?",
+    "expected_answer": "A ship is classified as a 'new ship' if either the building contract is placed on or after the date of application of this Act, the keel is laid or the ship is at a similar stage of construction six months after the date of application of this Act, or the delivery takes place thirty months after the date of application of this Act.",
+    "expected_source_document": "6a02bf5821ee3_128.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the proposed maximum number of members for the National Tariff Commission as per the amendments?",
+    "expected_answer": "The proposed maximum number of members for the National Tariff Commission is seven.",
+    "expected_source_document": "6979deb9ae639_991.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal implications of drone usage for agricultural monitoring in rural areas of Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What provisions are maintained despite the repeal of the Pakistan International Airlines Corporation (Conversion) Act, 2016?",
+    "expected_answer": "The conversion of the Pakistan International Airlines Corporation into a public company, all orders made, actions taken, arrangements entered into, transfers effected, licenses, permissions, sanctions, authorizations, concessions, and approvals granted and all proceedings continued under any of the powers conferred or exercised under the aforementioned Act of 2016 shall be deemed always to have been lawfully and validly made, taken, issued, vested or transferred and shall continue to be in force.",
+    "expected_source_document": "6a2bece77bea2_363.pdf",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act that amends the Special Technology Zones Authority Act, 2021?",
+    "expected_answer": "The Special Technology Zones Authority (Amendment) Act, 2025.",
+    "expected_source_document": "682444521a442_461.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Are there specific laws regarding the preservation of cultural heritage sites in rural Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "Are there specific legal requirements for the establishment of a community solar energy project in Sindh?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "The Capital Development Authority (Amendment) Act, 2025.",
+    "expected_source_document": "6936e3c28080a_251.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Is there a legal framework for the regulation of e-sports in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What are the conditions under which compensation is provided according to section 30 of the Ordinance?",
+    "expected_answer": "Compensation is provided through land sharing, rehabilitation benefits, resettlement benefits, or any other form as determined by the Authority, ensuring that the allotted land is of equivalent value, utility and accessibility as the acquired land, and that rehabilitation and resettlement benefits are provided where required.",
+    "expected_source_document": "695ba2196aed6_501.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Is there a legal framework governing the use of artificial intelligence in healthcare services in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "When did the Privatisation Commission (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "69ccf3be7cdbe_300.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who is responsible for acting as the Chairperson of the Daanish Schools Authority in the absence of the Chairperson?",
+    "expected_answer": "In the absence of the Chairperson, the Vice-Chairperson shall act as the Chairperson.",
+    "expected_source_document": "6928610f0b3d0_464.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When does the Act come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "69b91e5fc28e4_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who is defined as an 'aggrieved person' under the Domestic Violence (Prevention and Protection) Act, 2026?",
+    "expected_answer": "Any woman, man, transgender person, child, vulnerable person, or any other individual, including a person with a disability or a person of old age, who is or has been in a domestic relationship with the respondent and who alleges to have been subjected to any act of domestic violence by the respondent.",
+    "expected_source_document": "69799f69ae4c4_844.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the time frame within which the Chairman of the Board must appoint a committee after receiving an application for alternative dispute resolution?",
+    "expected_answer": "The Chairman must appoint a committee within fifteen days of receipt of the application.",
+    "expected_source_document": "6976fbb07496b_788.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What does the term 'division concerned' refer to in the context of the Associated Press of Pakistan Corporation Ordinance, 2002?",
+    "expected_answer": "It means the Ministry or, as the case may be, the division to which business of the corporation stands allocated.",
+    "expected_source_document": "69ccf2db12886_279.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "The Associated Press of Pakistan Corporation (Amendment) Act, 2026.",
+    "expected_source_document": "69ccf2db12886_279.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal ramifications for a Pakistani citizen participating in international online gaming tournaments?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "Is there a legal framework governing the sale and distribution of organic food products in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the definition of 'sexual exploitation' as per the Prevention of Trafficking in Persons (Amendment) Act, 2025?",
+    "expected_answer": "'Sexual exploitation' means any actual or attempted abuse of position of vulnerability or trust for sexual purpose, including but not limited to profiting monetarily or any other gain for the sexual exploitation of another.",
+    "expected_source_document": "67b34630de511_584.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act established for the protection against domestic violence?",
+    "expected_answer": "The Domestic Violence (Prevention and Protection) Act, 2026.",
+    "expected_source_document": "69799f69ae4c4_844.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When does the Code of Criminal Procedure (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "6a27b92def6c0_429.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the definition of 'Daanish School' as per the Daanish Schools Authority Act, 2025?",
+    "expected_answer": "'Daanish School' means a school established or notified by the Authority under this Act and includes any school established or notified before the commencement of this Act.",
+    "expected_source_document": "6928610f0b3d0_464.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the composition of the University as stated in the document?",
+    "expected_answer": "The University shall consist of the Chancellor, the members of the Senate, the Rector, the members of the Authority of the University established, and all Teachers and persons recognized.",
+    "expected_source_document": "69afcf8dd29cb_688.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When does the Imports and Exports (Control) (Amendment) Act, 2025 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "67bd9004100c1_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal implications of using personal data for targeted advertising by local businesses in Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "Who is authorized to make decisions regarding extradition cases as per the amendment in Section 7 of the Extradition Act, 1972?",
+    "expected_answer": "The Secretary of the division to which the business of this Act stands allocated.",
+    "expected_source_document": "682aac392fae7_674.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When did the Associated Press of Pakistan Corporation (Amendment) Act, 2026 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "69ccf2db12886_279.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "When did the Legal Aid and Justice Authority (Amendment) Act, 2024 come into force?",
+    "expected_answer": "It shall come into force at once.",
+    "expected_source_document": "679866e0bce08_199.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "Who is responsible for acting as the treasurer according to the amendments?",
+    "expected_answer": "The Secretary and the Joint Secretary of the Division concerned.",
+    "expected_source_document": "69ce79a77b6e0_655.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What are the legal considerations for the importation of rare and exotic pets into Pakistan?",
+    "expected_answer": "Not explicitly mentioned in the context.",
+    "expected_source_document": null,
+    "expected_page": null,
+    "should_retrieve": false
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "Christian Marriage (Amendment) Act, 2024",
+    "expected_source_document": "66ceed1c000bf_209.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What provision is added to Section 3 of the Imports and Exports (Control) Act, 1950 regarding the Minister-in-Charge?",
+    "expected_answer": "The Minister-in-Charge may, by notification in the official Gazette, for reasons to be recorded in writing, on case-to-case basis and in the interest of trade and commerce of Pakistan, allow one-time permission to import, re-import, export or re-export goods in relaxation of the prohibition or restrictions contained in the order made under this sub-section for the time being in force.",
+    "expected_source_document": "67bd9004100c1_381.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  },
+  {
+    "question": "What is the short title of the Act mentioned in the document?",
+    "expected_answer": "This Act shall be called the Constitution (Twenty-seventh Amendment) Act, 2025.",
+    "expected_source_document": "6914afccc4f10_308.txt",
+    "expected_page": null,
+    "should_retrieve": true
+  }
+]

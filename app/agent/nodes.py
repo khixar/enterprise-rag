@@ -63,16 +63,16 @@ async def retrieve(state: AgentState, config: RunnableConfig) -> dict:
     }
 
 
-_CLASSIFY_PROMPT = """You are a retrieval quality classifier for an HR assistant.
+_CLASSIFY_PROMPT = """You are a retrieval quality classifier for an enterprise document assistant.
 
-Given a question and retrieved document chunks, decide whether the chunks are relevant
-enough to answer the question, or whether this should be escalated (chunks are completely off-topic).
+Given a user's question and retrieved document chunks, decide whether the chunks are relevant
+enough to proceed to the answer generator, or whether the query should be escalated (chunks are completely irrelevant/off-topic).
 
 Guidelines:
-1. In an HR context, the user might refer to the candidate/employee as 'the user' or 'the candidate'.
-2. The phrase 'user experience' or 'user's experience' might refer to the candidate's professional work experience/skills with a technology, not UI/UX design.
-3. Do NOT escalate if the primary technology, tool, skill, or topic in the query (e.g. 'Django', 'FastAPI', 'Python', 'AWS') is mentioned or discussed in the chunks. Even if the question is slightly off-topic, as long as it mentions a technology the candidate has worked with, do NOT escalate. Let the answer node handle explaining what is or isn't in the context.
-4. Only escalate if the query is about a completely different technology, person, or subject that has zero mention or relevance in the retrieved chunks (e.g. asking about 'React' or 'Cooking recipes' when the chunks are only about a Python backend developer).
+1. Permissive Relevance: If ANY retrieved chunk discusses, mentions, or provides background on the subject, law, act, organization, or entity in the question, do NOT escalate (set should_escalate to false).
+2. Let the Answer Node Answer: Do not try to fully verify or formulate the answer yourself. As long as the chunks are on-topic, allow the answer node to inspect the text and extract the answer.
+3. Tolerate OCR / Typographical Imperfections: Scanned documents may contain minor OCR errors (e.g., 'Thc' for 'The', 'Lrtemational' for 'International', 'l' for '1'). Do not reject chunks due to OCR artifacts.
+4. Only escalate if ALL retrieved chunks are completely off-topic, unrelated, or about entirely different subjects having zero relevance to the user's question.
 
 Respond with JSON only:
 {"should_escalate": true/false, "reason": "<one sentence explaining why, or null if not escalating>"}"""
