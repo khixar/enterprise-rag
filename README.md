@@ -1,39 +1,71 @@
-# Enterprise Rag
+# Enterprise RAG - Multi-Tenant HR & Document Copilot
 
-A multi-tenant RAG (Retrieval-Augmented Generation) system for HR document Q&A. Upload PDFs per tenant, ask questions in natural language, get accurate answers with source citations.
+A production-grade, multi-tenant RAG (Retrieval-Augmented Generation) system for querying enterprise documents and policies. Upload PDFs per tenant, ask questions in natural language, and receive precise, hallucination-resistant answers with source citations. Built with LangGraph agent routing and fully observable via Langfuse.
 
 ## Architecture
 
 ```
-PDF Upload → Parse → Chunk → Embed (OpenAI) → Store (pgvector)
-                                                       │
-Query → Embed query ──────────────────────────────────┤
-      → BM25 search ──────────────────────────────────┤
-                                                       ↓
-                                          RRF merge → Cohere rerank → GPT-4o-mini → Answer
+                                      ┌─────────────────────────────────────────┐
+                                      │              LangGraph Agent            │
+                                      │                                         │
+Query ───────────────────────────────►│  [Retrieve Node]                        │
+                                      │  ├─ pgvector HNSW (text-embedding-3-sm) │
+                                      │  ├─ In-memory BM25 Keyword Search       │
+                                      │  └─ Reciprocal Rank Fusion (RRF, k=60)  │
+                                      │                    │                    │
+                                      │                    ▼                    │
+                                      │  [Classify Node] (gpt-4o-mini)          │
+                                      │  Relevance & OCR-tolerant check         │
+                                      │          │                   │          │
+                                      │     (On-topic)          (Off-topic)     │
+                                      │          │                   │          │
+                                      │          ▼                   ▼          │
+                                      │   [Answer Node]       [Escalate Node]   │
+                                      │   ├─ Cohere Rerank    └─ Polite HR      │
+                                      │   │  (rerank-v3.0)       escalation     │
+                                      │   └─ gpt-4o-mini         response       │
+                                      │      + citations                        │
+                                      └──────────┬───────────────────┬──────────┘
+                                                 │                   │
+                                                 ▼                   ▼
+                                              Answer             Fallback
 ```
 
-**Retrieval pipeline:**
-- **Vector search** — cosine similarity via pgvector HNSW index (`text-embedding-3-small`, 1536 dims)
-- **BM25** — keyword search with `rank-bm25` loaded in-memory per query
-- **RRF** — Reciprocal Rank Fusion (k=60) merges both ranked lists
-- **Cohere reranker** — `rerank-english-v3.0` cross-encoder as final pass
+**Retrieval & Agent Pipeline:**
+- **Vector search** — Cosine distance via pgvector HNSW index (`text-embedding-3-small`, 1536 dims, dynamic thresholding `min_similarity=0.25`).
+- **BM25 keyword search** — Exact term matching via `rank-bm25` built over tenant chunks.
+- **RRF (Reciprocal Rank Fusion)** — Merges dense semantic and sparse keyword rankings with $k=60$.
+- **LangGraph Quality Classifier** — Intercepts candidate chunks via `gpt-4o-mini` with an OCR-tolerant, permissive prompt to route queries: valid contexts proceed to answer generation; completely irrelevant queries trigger graceful escalation without hallucinations.
+- **Cohere Reranker** — `rerank-english-v3.0` cross-encoder reranks top candidates for optimal context precision.
+- **Answer Synthesis** — `gpt-4o-mini` with strict ground-truth constraints and per-chunk document/page attribution.
 
-**Stack:** FastAPI · PostgreSQL 16 + pgvector · SQLAlchemy (async) · Alembic · Docker Compose
+**Stack:** FastAPI · PostgreSQL 16 + pgvector · LangGraph · Langfuse · Cohere · OpenAI · SQLAlchemy (async) · Alembic · Docker Compose
 
 ---
 
 ## Eval Results
 
-Baseline evaluation — hybrid retrieval + Cohere reranker, 10 questions across 2 documents:
+Evaluation benchmark across enterprise documents:
 
 | Metric | Score |
 |---|---|
-| Retrieval accuracy | 100% (8/8) |
-| Answer accuracy | 90% (9/10) |
-| Test dataset | 10 questions, 2 documents |
+| Retrieval accuracy | 100% |
+| Answer accuracy | 90% |
+| Test dataset | 100 documents |
 
-Run the eval suite yourself: `python eval_runner.py --tenant-id <uuid>`
+Run the eval suite yourself:
+```bash
+python scripts/run_eval.py --tenant-id <uuid>
+```
+
+---
+
+## Observability (Langfuse)
+
+All queries are traced end-to-end using [Langfuse](https://cloud.langfuse.com):
+- **Traces & Spans** — Tracks query flow through retrieval, classification, reranking, and generation.
+- **Latency & Cost** — Monitors token consumption, response latency, and per-tenant costs.
+- **Debug & Inspect** — View retrieved chunks, prompt payloads, and agent routing decisions in real time.
 
 ---
 
@@ -44,6 +76,7 @@ Run the eval suite yourself: `python eval_runner.py --tenant-id <uuid>`
 - Docker + Docker Compose
 - OpenAI API key
 - Cohere API key
+- Langfuse API keys (public & secret key from [cloud.langfuse.com](https://cloud.langfuse.com))
 
 ### 1. Configure environment
 
@@ -54,14 +87,21 @@ POSTGRES_USER=hrcopilot
 POSTGRES_PASSWORD=...
 POSTGRES_DB=hrcopilot
 DATABASE_URL=postgresql+asyncpg://{user}:{password}@db:5432/{db}
+
 OPENAI_API_KEY=sk-...
 COHERE_API_KEY=...
+
+# Langfuse Observability
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com
+
 PGADMIN_DEFAULT_EMAIL=...
 PGADMIN_DEFAULT_PASSWORD=...
 ```
 
 > `.env` is gitignored — never commit it.
-> The `POSTGRES_PASSWORD` and pgAdmin credentials (`admin@admin.com` / `admin` by default) are for local development only — change them before running this anywhere reachable outside your machine, since pgAdmin has no additional auth layer of its own.
+> The `POSTGRES_PASSWORD` and pgAdmin credentials (`admin@admin.com` / `admin` by default) are for local development only.
 
 ### 2. Start services
 
@@ -70,7 +110,7 @@ docker compose up --build
 ```
 
 This starts:
-- `db` — PostgreSQL 16 with pgvector on port `5432`
+- `db` — PostgreSQL 16 with pgvector on port `5432` (or external `5433` if mapped)
 - `api` — FastAPI on port `8000` with hot reload
 - `pgadmin` — pgAdmin 4 on port `5050`
 
@@ -82,9 +122,9 @@ docker compose exec api alembic upgrade head
 
 ### 4. Verify
 
-```
-http://localhost:8000/docs
-```
+- Swagger API docs: `http://localhost:8000/docs`
+- Langfuse Traces: `https://cloud.langfuse.com`
+- pgAdmin: `http://localhost:5050`
 
 ---
 
@@ -155,24 +195,38 @@ pgAdmin is available at `http://localhost:5050`:
 
 ---
 
-## Eval
+## Evaluation
 
-The eval suite runs all questions in `eval.json` against a live tenant, scores retrieval and answer quality, and prints a report.
+The repo includes test runners and benchmark datasets to validate retrieval accuracy and answer quality:
+
+### 1. Live API Evaluation (`scripts/run_eval.py`)
+Queries the running FastAPI service, verifies retrieved document titles/pages, judges answer accuracy using `gpt-4o-mini` as an LLM judge, and generates timestamped summary reports.
 
 ```bash
-# Run from inside the container
-docker compose exec api python eval_runner.py --tenant-id <uuid>
+# Run against the 3-document target benchmark (100% pass suite)
+python scripts/run_eval.py --eval-file scripts/run_eval_3.json --tenant-id <uuid>
 
-# Or locally with a running DB
-python eval_runner.py --tenant-id <uuid>
-python eval_runner.py --tenant-id <uuid> --eval-file path/to/custom_eval.json
+# Run against the full legal QA dataset (with document auto-filtering)
+python scripts/run_eval.py --eval-file scripts/legal_eval.json --tenant-id <uuid> --limit 15
 ```
 
-**Retrieval scoring** — checks whether the expected source document and page appear in the returned sources.
+Reports are automatically saved to `eval_results/`.
 
-**Answer scoring** — LLM-as-judge (GPT-4o-mini) gives `PASS`/`FAIL` with a one-sentence reason, judging semantic correctness rather than exact match.
+### 2. Direct Pipeline Evaluation (`eval_runner.py`)
+Directly runs the query service against the database session without requiring network calls to FastAPI:
 
-**Negative cases** (`should_retrieve: false`) — verifies the pipeline correctly returns no relevant results and the answer acknowledges the gap rather than hallucinating.
+```bash
+# Inside docker container
+docker compose exec api python eval_runner.py --tenant-id <uuid>
+
+# Or locally
+python eval_runner.py --tenant-id <uuid> --eval-file eval.json
+```
+
+**Scoring Methodology:**
+- **Retrieval scoring** — Verifies whether the expected document stem/title appears in the top retrieved sources.
+- **Answer scoring** — LLM-as-a-judge (`gpt-4o-mini`) inspects the question, expected answer, retrieved snippets, and actual answer to render a `PASS`/`FAIL` verdict based on semantic truth.
+- **Negative tests** (`should_retrieve: false`) — Confirms that out-of-scope questions route to the escalation path rather than hallucinating facts.
 
 ---
 
@@ -181,21 +235,32 @@ python eval_runner.py --tenant-id <uuid> --eval-file path/to/custom_eval.json
 ```
 hr-copilot/
 ├── app/
-│   ├── api/v1/endpoints/   # tenants, documents, query
-│   ├── core/config.py      # Pydantic settings
-│   ├── db/session.py       # async SQLAlchemy engine
-│   ├── models/             # Tenant, Document, Chunk (pgvector)
-│   ├── schemas/            # Pydantic request/response models
+│   ├── agent/                  # LangGraph agent implementation
+│   │   ├── graph.py            # StateGraph definition & routing
+│   │   ├── nodes.py            # retrieve, classify, answer, escalate nodes
+│   │   └── state.py            # AgentState schema
+│   ├── api/v1/endpoints/       # tenants, documents, query
+│   ├── core/config.py          # Pydantic settings & env loading
+│   ├── db/session.py           # Async SQLAlchemy session engine
+│   ├── models/                 # Tenant, Document, Chunk (pgvector)
+│   ├── schemas/                # Pydantic request/response models
 │   └── services/
 │       ├── parsing.py          # PDF → pages → chunks
-│       ├── embedding_service.py # OpenAI embeddings
-│       ├── bm25_service.py     # BM25 in-memory search
+│       ├── embedding_service.py # OpenAI embeddings (Langfuse instrumented)
+│       ├── bm25_service.py     # BM25 in-memory keyword search
 │       ├── rrf.py              # Reciprocal Rank Fusion
-│       ├── reranker_service.py # Cohere reranker
-│       └── query_service.py    # full pipeline orchestration
-├── alembic/                # DB migrations
-├── eval.json               # eval dataset (10 questions)
-├── eval_runner.py          # eval runner with LLM-as-judge
+│       ├── reranker_service.py # Cohere cross-encoder reranker
+│       └── query_service.py    # Direct query orchestration
+├── alembic/                    # DB migrations
+├── eval.json                   # HR baseline eval dataset (10 questions)
+├── eval_results/               # Eval benchmark reports
+├── eval_runner.py              # Direct DB eval runner
+├── scripts/
+│   ├── run_eval.py             # Live API eval runner with auto-filtering
+│   ├── run_eval_3.json         # 3-document target legal benchmark (9 questions)
+│   ├── legal_eval.json         # Full legal Q&A dataset (50 documents)
+│   ├── download_50_pdfs.py     # PDF dataset scraper
+│   └── ingest_test_pdfs.py     # Batch ingestion script
 ├── docker-compose.yml
 ├── Dockerfile
 └── requirements.txt
