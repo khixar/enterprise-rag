@@ -15,7 +15,7 @@ Query ────────────────────────�
                                       │                    │                    │
                                       │                    ▼                    │
                                       │  [Classify Node] (gpt-4o-mini)          │
-                                      │  Relevance & OCR-tolerant check         │
+                                      │  Relevance check (filter off-topic)     │
                                       │          │                   │          │
                                       │     (On-topic)          (Off-topic)     │
                                       │          │                   │          │
@@ -35,7 +35,7 @@ Query ────────────────────────�
 - **Vector search** — Cosine distance via pgvector HNSW index (`text-embedding-3-small`, 1536 dims, dynamic thresholding `min_similarity=0.25`).
 - **BM25 keyword search** — Exact term matching via `rank-bm25` built over tenant chunks.
 - **RRF (Reciprocal Rank Fusion)** — Merges dense semantic and sparse keyword rankings with $k=60$.
-- **LangGraph Quality Classifier** — Intercepts candidate chunks via `gpt-4o-mini` with an OCR-tolerant, permissive prompt to route queries: valid contexts proceed to answer generation; completely irrelevant queries trigger graceful escalation without hallucinations.
+- **LangGraph Quality Classifier** — Validates candidate chunks via `gpt-4o-mini` to route queries: on-topic chunks proceed to answer generation; completely irrelevant queries trigger graceful escalation without hallucinations.
 - **Cohere Reranker** — `rerank-english-v3.0` cross-encoder reranks top candidates for optimal context precision.
 - **Answer Synthesis** — `gpt-4o-mini` with strict ground-truth constraints and per-chunk document/page attribution.
 
