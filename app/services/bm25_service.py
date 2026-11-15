@@ -1,7 +1,7 @@
 import uuid
 from dataclasses import dataclass
 
-from sqlalchemy import desc, func, select
+from sqlalchemy import Text, desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.chunk import Chunk
@@ -23,11 +23,16 @@ async def bm25_search(
     query: str,
     top_k: int,
 ) -> list[BM25Result]:
-    # Parse input query to English search terms
-    tsquery = func.plainto_tsquery("english", query)
+    # Parse input query to English search terms, OR-ed so a chunk qualifies by matching
+    # any term (plainto_tsquery ANDs them, which drops chunks missing a single word)
+    tsquery = func.to_tsquery(
+        "english",
+        func.replace(func.plainto_tsquery("english", query).cast(Text), " & ", " | "),
+    )
 
-    # Rank relevance using cover-density
-    score = func.ts_rank_cd(Chunk.search_vector, tsquery).label("score")
+    # Rank by term frequency, normalised by log length (flag 1). Cover density (ts_rank_cd)
+    # rewards short chunks dense in common terms like "Act", which dominate an OR query.
+    score = func.ts_rank(Chunk.search_vector, tsquery, 1).label("score")
 
     # Select chunks matching query, sorted by highest ranking score
     stmt = (

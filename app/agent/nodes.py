@@ -10,6 +10,7 @@ from app.agent.state import AgentState
 from app.models.chunk import Chunk
 from app.models.document import Document
 from app.schemas.query import SourceChunk
+from app.services import usage
 from app.services.bm25_service import bm25_search
 from app.services.embedding_service import embed_texts, get_client
 from app.services.reranker_service import rerank
@@ -119,6 +120,7 @@ async def classify(state: AgentState, config: RunnableConfig) -> dict:
         temperature=0.0,
         response_format={"type": "json_object"},
     )
+    usage.record("gpt-4o-mini", resp.usage.prompt_tokens, resp.usage.completion_tokens)
     parsed = json.loads(resp.choices[0].message.content)
     should_escalate = parsed.get("should_escalate", False)
     reason = parsed.get("reason")
@@ -187,6 +189,7 @@ async def answer(state: AgentState, config: RunnableConfig) -> dict:
         ],
         temperature=0.0,
     )
+    usage.record("gpt-4o-mini", completion.usage.prompt_tokens, completion.usage.completion_tokens)
 
     ans = completion.choices[0].message.content
 
