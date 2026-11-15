@@ -123,13 +123,14 @@
   {
     "id": "691ec256c993a_804-p1",
     "question": "Under The Pakistan Navy (Amendment) Act, 2025, what change was made to the heading of Chapter IIIA in the Pakistan Navy Ordinance, 1961?",
-    "expected_answer": "The words and comma 'AND THE AND THE CHAIRMAN, JOINT CHIEFS OF STAFF COMMITTEE' were omitted from the heading of Chapter IIIA.",
+    "expected_answer": "The words and comma 'AND THE CHAIRMAN, JOINT CHIEFS OF STAFF COMMITTEE' were omitted from the heading of Chapter IIIA.",
     "evidence_quote": "in Chapter IIIA, in the heading, the words and comma \"AND THE AND THE CIIAIRMAN, JOINT CHIEFS OF STAFF COMMITTEE'shall be omitted.",
     "expected_source_document": "691ec256c993a_804.pdf",
     "expected_page": 2,
     "act_title": "The Pakistan Navy (Amendment) Act, 2025",
     "category": "plain_language",
-    "should_retrieve": true
+    "should_retrieve": true,
+    "fix_note": "answer key repeated an OCR duplication ('AND THE AND THE')"
   },
   {
     "id": "691ec256c993a_804-p2",
@@ -1706,15 +1707,15 @@
   },
   {
     "id": "neg-near-4",
-    "question": "What are the specific roles and responsibilities assigned to the newly constituted Committee under the Supreme Court (Practice and Procedure) (Amendment) Act, 2025?",
-    "category": "negative_near_miss",
+    "question": "Under the Supreme Court (Practice and Procedure) (Amendment) Act, 2025, who sits on the Committee and what does it do?",
+    "category": "lookup",
     "act_title": "The Supreme Court (Practice and Procedure) (Amendment) Act, 2025",
-    "near_source": "691ec2ac5419b_328.pdf",
-    "expected_answer": "Not explicitly mentioned in the context.",
-    "evidence_quote": null,
-    "expected_source_document": null,
-    "expected_page": null,
-    "should_retrieve": false
+    "expected_answer": "The Committee comprises the Chief Justice, the next senior most Judge and a Judge nominated by the Chief Justice; it constitutes the Benches that hear and dispose of every cause, matter, petition, appeal or review application before the Supreme Court, and decides by majority. If a member cannot attend, the Chief Justice may nominate another Judge.",
+    "evidence_quote": "shall be heard and disposed of by a Bench constituted by the Committee comprising the Chief Justice, the next senior most Judge in order of seniority and a Judge to be nominated by the ChiefJustice",
+    "expected_source_document": "691ec2ac5419b_328.pdf",
+    "expected_page": 2,
+    "should_retrieve": true,
+    "fix_note": "was a near-miss negative, but the Act does describe the Committee"
   },
   {
     "id": "neg-near-5",

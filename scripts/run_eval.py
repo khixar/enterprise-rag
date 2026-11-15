@@ -48,19 +48,21 @@ You will be given:
 4. Retrieved Context (document excerpts retrieved by the system, if available)
 5. The Actual Answer produced by the system
 
-Your job is to decide if the actual answer is factually correct and answers the question accurately.
+Grade the actual answer with exactly one of:
+- CORRECT: covers the core facts of the expected answer and states nothing false. Wording differences
+  and extra accurate detail supported by the evidence or context are fine.
+- INCOMPLETE: everything it states is true, but it leaves out part of the core facts of the expected answer.
+  Use INCOMPLETE only for omissions; extra detail is never a reason for INCOMPLETE.
+- WRONG: states anything that contradicts the expected answer or source evidence, answers a different
+  question, or cites laws, provisions or facts that appear in neither the Source Evidence nor the
+  Retrieved Context. For unanswerable questions (expected answer "Not explicitly mentioned"), any answer
+  that asserts substantive facts instead of declining is WRONG.
+- REFUSED: declines to answer or says the information is not available, without asserting substantive
+  facts. This is the right behaviour for unanswerable questions.
 
-Rules:
-- Minor wording differences are fine — evaluate semantic meaning and factual truth.
-- If expected_answer is "Not explicitly mentioned" and the actual answer also states it does not have the information / not found in the context, that is a PASS.
-- Comprehensiveness & Elaboration: If the actual answer covers the core facts of the expected answer and includes additional accurate details, qualifications, or legal provisions supported by the retrieved context, that is a PASS. Do NOT penalize the system for being more complete, detailed, or thorough than the expected reference.
-- Mark FAIL only if:
-  1. The actual answer directly contradicts the expected answer or asserts factually false information.
-  2. The actual answer misses the core question being asked.
-  3. For unanswerable questions ("Not explicitly mentioned"), the actual answer hallucinates/makes up an answer instead of admitting it lacks information.
-  4. The actual answer cites laws, provisions or facts that appear in neither the Source Evidence nor the Retrieved Context.
+Respond with ONLY a JSON object: {"grade": "CORRECT" | "INCOMPLETE" | "WRONG" | "REFUSED", "reason": "<one sentence explanation>"}"""
 
-Respond with ONLY a JSON object: {"verdict": "PASS" or "FAIL", "reason": "<one sentence explanation>"}"""
+GRADES = ("CORRECT", "INCOMPLETE", "WRONG", "REFUSED")
 
 
 def score_retrieval(expected_doc: str | None, expected_page: int | None, sources: list[dict]) -> bool | None:
@@ -107,10 +109,6 @@ def score_quote(evidence_quote: str | None, sources: list[dict]) -> bool | None:
     return False
 
 
-def is_refusal(answer: str) -> bool:
-    return answer.startswith("I wasn't able to find") or "don't have that information" in answer
-
-
 def judge_answer(
     client: OpenAI,
     question: str,
@@ -120,7 +118,7 @@ def judge_answer(
     evidence_quote: str | None = None,
     model: str = "gpt-4o-mini",
 ) -> tuple[str, str]:
-    """Judge answer correctness against the expected answer, source evidence and retrieved context."""
+    """Grade the answer (CORRECT/INCOMPLETE/WRONG/REFUSED) against the expected answer, evidence and context."""
     evidence_text = f"\n--- SOURCE EVIDENCE ---\n{evidence_quote}\n--- END EVIDENCE ---\n" if evidence_quote else ""
     context_text = ""
     if sources:
@@ -147,7 +145,8 @@ def judge_answer(
         )
         JUDGE_USAGE.append((model, resp.usage.prompt_tokens, resp.usage.completion_tokens))
         parsed = json.loads(resp.choices[0].message.content)
-        return parsed.get("verdict", "FAIL"), parsed.get("reason", "")
+        grade = str(parsed.get("grade", "")).upper()
+        return (grade if grade in GRADES else "ERROR"), parsed.get("reason", "")
     except Exception as e:
         return "ERROR", str(e)
 
@@ -179,6 +178,16 @@ def build_report_text(results: list[dict]) -> str:
     escalated = sum(1 for r in retrieval_cases if r.get("escalated"))
     refused = sum(1 for r in retrieval_cases if r.get("refused"))
 
+    def grade_count(cases: list[dict], grade: str) -> int:
+        return sum(1 for r in cases if r.get("grade") == grade)
+
+    # Precision: of the questions the system answered (did not refuse), how many contain nothing false.
+    # Any answer to an unanswerable question is wrong by definition.
+    answered_pos = [r for r in retrieval_cases if r.get("grade") not in ("REFUSED", "ERROR")]
+    answered_neg = [r for r in negative_cases if r.get("grade") not in ("REFUSED", "ERROR")]
+    not_wrong = sum(1 for r in answered_pos if r.get("grade") in ("CORRECT", "INCOMPLETE"))
+    answered = len(answered_pos) + len(answered_neg)
+
     lines = [
         "=" * 70,
         "  HR COPILOT EVAL REPORT",
@@ -199,6 +208,15 @@ def build_report_text(results: list[dict]) -> str:
         f"    Escalated (classifier): {pct(escalated, len(retrieval_cases))}",
         f"    Refused (any reason)  : {pct(refused, len(retrieval_cases))}",
         "",
+        "  Grades, answerable questions:",
+        *(f"    {g:<22}: {pct(grade_count(retrieval_cases, g), len(retrieval_cases))}" for g in GRADES),
+        "  Grades, unanswerable questions:",
+        f"    Declined (correct)    : {pct(grade_count(negative_cases, 'REFUSED'), len(negative_cases))}",
+        f"    Answered anyway       : {pct(len(answered_neg), len(negative_cases))}",
+        "",
+        f"  Precision (not WRONG / answered)  : {pct(not_wrong, answered)}",
+        f"  Coverage (answerable answered)    : {pct(len(answered_pos), len(retrieval_cases))}",
+        "",
         "-" * 70,
         "  PER-QUESTION BREAKDOWN",
         "-" * 70,
@@ -215,7 +233,7 @@ def build_report_text(results: list[dict]) -> str:
 
         lines.append(f"\n  Q{i}: {r['question']}")
         lines.append(f"       Retrieval : {ret_label}")
-        lines.append(f"       Answer    : {r['answer_verdict']} {ans_symbol}  — {r['answer_reason']}")
+        lines.append(f"       Answer    : {r['answer_verdict']} {ans_symbol} [{r.get('grade', '-')}]  — {r['answer_reason']}")
         lines.append(f"       Expected  : {r['expected_answer']}")
         actual_snippet = r['actual_answer'][:200] + ("..." if len(r['actual_answer']) > 200 else "")
         lines.append(f"       Actual    : {actual_snippet}")
@@ -391,17 +409,26 @@ def main():
             retrieved_pages = [s.get("page_number") for s in sources]
 
             retrieval_pass = score_retrieval(expected_doc, expected_page, sources)
-            verdict, reason = judge_answer(
+            grade, reason = judge_answer(
                 client, q, expected_ans, actual_ans, sources=sources,
                 evidence_quote=case.get("evidence_quote"), model=args.judge_model,
             )
+            # PASS keeps the strict meaning: a full answer to an answerable question,
+            # or declining an unanswerable one
+            if grade == "ERROR":
+                verdict = "ERROR"
+            elif grade == ("CORRECT" if should_retrieve else "REFUSED"):
+                verdict = "PASS"
+            else:
+                verdict = "FAIL"
 
             return {
                 **meta,
+                "grade": grade,
                 "doc_pass": score_retrieval(expected_doc, None, sources),
                 "quote_pass": score_quote(case.get("evidence_quote"), sources),
                 "escalated": actual_ans.startswith("I wasn't able to find"),
-                "refused": is_refusal(actual_ans),
+                "refused": grade == "REFUSED",
                 "question": q,
                 "expected_answer": expected_ans,
                 "expected_doc": expected_doc,

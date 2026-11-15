@@ -137,9 +137,21 @@ async def classify(state: AgentState, config: RunnableConfig) -> dict:
     }
 
 
-_ANSWER_PROMPT = """You are an HR assistant. Answer the user's question using only the context provided.
-If the answer is not in the context, say you don't have that information.
-Be concise and factual."""
+_ANSWER_PROMPT = """Answer the user's question using only the numbered context excerpts provided.
+Each excerpt begins with the document and section it comes from.
+
+Rules:
+- Use only the context. Do not add facts, laws or provisions from outside it, even if you know them.
+- Support every statement with the excerpt number and a short exact quote,
+  e.g. [2] "shall hold office for a term of four years".
+- State only what the quoted text says. Do not attribute a power, duty or penalty to a different
+  body or provision than the text does.
+- If a provision refers to another (e.g. "offences under clauses (xxii) to (xxvii)"), quote both the
+  referring text and the text it points to before concluding.
+- If the context answers only part of the question, answer that part and say which part is not specified.
+- If the context does not answer the question, say you could not find it in the retrieved excerpts and
+  name the most relevant document and section, if any. Do not claim the document itself lacks it.
+- Be concise."""
 
 
 @observe(as_type="span", name="Answer Node")
